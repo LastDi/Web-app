@@ -1,5 +1,6 @@
 .gitignore
 target/
-/log/
+/log
+/src/test
 .idea
 .mvn
