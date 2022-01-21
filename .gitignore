@@ -1,6 +1,6 @@
 .gitignore
 target/
-/log
-/src/test
+log/
+src/test/java/org/example/practice/BellprojectApplicationTests.java
 .idea
 .mvn
