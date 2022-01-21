@@ -43,7 +43,7 @@ public class UserController {
 
     @PostMapping("/list")
     public ResponseEntity<?>  getUsers(@RequestBody UserDtoForListIn dto) {
-        if (dto.getFirstName() == null || dto.getOfficeId() == null || dto.getPosition() == null) {
+        if (dto.getOfficeId() == null) {
             error.replace("error", "Incorrect data");
             return ResponseEntity.badRequest().body(error);
         }

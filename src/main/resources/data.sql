@@ -40,6 +40,10 @@ INSERT INTO User (id, version, first_name, last_name, position, office_id, count
 
 INSERT INTO User (id, version, first_name, position, office_id, country_id, identified) VALUES (3, 0, 'Дмитрий', 'Директор', 1, 2, TRUE);
 
+INSERT INTO User (id, version, first_name, position, office_id, country_id, identified) VALUES (4, 0, 'Иван', 'Менеджер', 1, 2, TRUE);
+
+INSERT INTO User (id, version, first_name, position, office_id, country_id, identified) VALUES (5, 0, 'Петр', 'Консультант', 2, 2, TRUE);
+
 ----------------------------------------- Добавляем документы-----------------------------------------------------------
 
 INSERT INTO Docs (user_id, version, number, date, type_id) VALUES (1, 0, '8198 675466', '2017-12-01', 1);
@@ -47,6 +51,10 @@ INSERT INTO Docs (user_id, version, number, date, type_id) VALUES (1, 0, '8198 6
 INSERT INTO Docs (user_id, version, number, date, type_id) VALUES (2, 0, '9871243254', '2010-01-04', 2);
 
 INSERT INTO Docs (user_id, version, number, date, type_id) VALUES (3, 0, '1234 347232', '2012-11-11', 1);
+
+INSERT INTO Docs (user_id, version, number, date, type_id) VALUES (4, 0, '1234 111111', '2012-11-11', 2);
+
+INSERT INTO Docs (user_id, version, number, date, type_id) VALUES (5, 0, '1234 222222', '2012-11-11', 1);
 
 
 

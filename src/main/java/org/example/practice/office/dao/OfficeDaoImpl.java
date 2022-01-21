@@ -2,6 +2,7 @@ package org.example.practice.office.dao;
 
 import org.example.practice.office.dto.OfficeDtoForListIn;
 import org.example.practice.office.entity.Office;
+import org.example.practice.organization.dto.OrganizationDtoForListIn;
 import org.example.practice.user.dto.UserDtoForListIn;
 import org.example.practice.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 @Repository
 public class OfficeDaoImpl implements OfficeDao{
     private final EntityManager em;
     private CriteriaBuilder builder;
+    private Map<String, Supplier<?>> map;
 
     @Autowired
     public OfficeDaoImpl(EntityManager em) {
@@ -70,25 +75,26 @@ public class OfficeDaoImpl implements OfficeDao{
         em.merge(office);
     }
 
+    private void initMap(OfficeDtoForListIn dto) {
+        if (map == null)
+            map = new HashMap<>();
+        map.put("organization", dto::getOrgId);
+        map.put("active", dto::isActive);
+        map.put("name", dto::getName);
+        map.put("phone", dto::getPhone);
+    }
+
     private CriteriaQuery<Office> buildCriteria(OfficeDtoForListIn dto) {
         CriteriaQuery<Office> criteria = builder.createQuery(Office.class);
         Root<Office> office = criteria.from(Office.class);
-        List<Predicate> predicates = new ArrayList<>(4);
-        Predicate organization = builder.equal(office.get("organization"), dto.getOrgId());
-        predicates.add(organization);
-        Predicate active = builder.equal(office.get("active"), dto.isActive());
-        predicates.add(active);
-        if (dto.getName() != null) {
-            Predicate name = builder.equal(office.get("name"), dto.getName());
-            predicates.add(name);
-        }
-        if (dto.getPhone() != null) {
-            Predicate phone = builder.equal(office.get("phone"), dto.getPhone());
-            predicates.add(phone);
-        }
-        Predicate[] predicatesArr = new Predicate[predicates.size()];
-        predicates.toArray(predicatesArr);
-        criteria.where(predicatesArr);
+        initMap(dto);
+        List<Predicate> predicatesList = map.entrySet().stream()
+                .filter(pair -> pair.getValue().get() != null)
+                .map(pair -> builder.equal(office.get(pair.getKey()), pair.getValue().get()))
+                .toList();
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        predicatesList.toArray(predicates);
+        criteria.where(predicates);
         return criteria;
     }
 }

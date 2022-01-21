@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * {@inheritDoc}
@@ -25,6 +27,7 @@ public class UserDaoImpl implements UserDao{
 
     private final EntityManager em;
     private CriteriaBuilder builder;
+    private Map<String, Supplier<?>> map;
 
     @Autowired
     public UserDaoImpl(EntityManager em) {
@@ -75,39 +78,29 @@ public class UserDaoImpl implements UserDao{
         em.merge(user);
     }
 
+    private void initMap(UserDtoForListIn dto) {
+        if (map == null)
+            map = new HashMap<>();
+        map.put("office", dto::getOfficeId);
+        map.put("firstName", dto::getFirstName);
+        map.put("lastName", dto::getLastName);
+        map.put("middleName", dto::getMiddleName);
+        map.put("position", dto::getPosition);
+        map.put("doc", dto::getDocCode);
+        map.put("citizenshipCode", dto::getCitizenshipCode);
+    }
+
     private CriteriaQuery<User> buildCriteria(UserDtoForListIn dto) {
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
         Root<User> user = criteria.from(User.class);
-        List<Predicate> predicates = new ArrayList<>(7);
-        Predicate office = builder.equal(user.get("office"), dto.getOfficeId());
-        predicates.add(office);
-        if (dto.getFirstName() != null) {
-            Predicate firstName = builder.equal(user.get("firstName"), dto.getFirstName());
-            predicates.add(firstName);
-        }
-        if (dto.getLastName() != null) {
-            Predicate lastName = builder.equal(user.get("lastName"), dto.getLastName());
-            predicates.add(lastName);
-        }
-        if (dto.getMiddleName() != null) {
-            Predicate middleName = builder.equal(user.get("middleName"), dto.getMiddleName());
-            predicates.add(middleName);
-        }
-        if (dto.getPosition() != null) {
-            Predicate position = builder.equal(user.get("position"), dto.getPosition());
-            predicates.add(position);
-        }
-        if (dto.getDocCode() != null) {
-            Predicate doc = builder.equal(user.get("doc"), dto.getDocCode());
-            predicates.add(doc);
-        }
-        if (dto.getCitizenshipCode() != null) {
-            Predicate countryCode = builder.equal(user.get("citizenshipCode"), dto.getCitizenshipCode());
-            predicates.add(countryCode);
-        }
-        Predicate[] predicatesArr = new Predicate[predicates.size()];
-        predicates.toArray(predicatesArr);
-        criteria.where(predicatesArr);
+        initMap(dto);
+        List<Predicate> predicatesList = map.entrySet().stream()
+                .filter(pair -> pair.getValue().get() != null)
+                .map(pair -> builder.equal(user.get(pair.getKey()), pair.getValue().get()))
+                .toList();
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        predicatesList.toArray(predicates);
+        criteria.where(predicates);
         return criteria;
     }
 

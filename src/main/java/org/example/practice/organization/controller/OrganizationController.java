@@ -45,7 +45,6 @@ public class OrganizationController {
     @PostMapping("/list")
     public ResponseEntity<?> getOrganizations(@RequestBody OrganizationDtoForListIn dto) {
         List<OrganizationDtoForListOut> organizations = organizationService.organizationsByTerms(dto);
-        System.out.println(dto);
         return ResponseEntity.ok().body(organizations);
     }
 

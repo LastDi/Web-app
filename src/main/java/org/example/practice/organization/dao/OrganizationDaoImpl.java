@@ -2,6 +2,7 @@ package org.example.practice.organization.dao;
 
 import org.example.practice.organization.dto.OrganizationDtoForListIn;
 import org.example.practice.organization.entity.Organization;
+import org.example.practice.user.dto.UserDtoForListIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,13 +13,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 @Repository
 public class OrganizationDaoImpl implements OrganizationDao {
 
     private final EntityManager em;
     private CriteriaBuilder builder;
+    private Map<String, Supplier<?>> map;
 
     @Autowired
     public OrganizationDaoImpl(EntityManager em) {
@@ -70,21 +75,25 @@ public class OrganizationDaoImpl implements OrganizationDao {
         return query.getResultList();
     }
 
+    private void initMap(OrganizationDtoForListIn dto) {
+        if (map == null)
+            map = new HashMap<>();
+        map.put("name", dto::getName);
+        map.put("active", dto::isActive);
+        map.put("inn", dto::getInn);
+    }
+
     private CriteriaQuery<Organization> buildCriteria(OrganizationDtoForListIn dto) {
         CriteriaQuery<Organization> criteria = builder.createQuery(Organization.class);
         Root<Organization> organization = criteria.from(Organization.class);
-        List<Predicate> predicates = new ArrayList<>(3);
-        Predicate name = builder.equal(organization.get("name"), dto.getName());
-        predicates.add(name);
-        Predicate active = builder.equal(organization.get("active"), dto.isActive());
-        predicates.add(active);
-        if (dto.getInn() != null) {
-            Predicate inn = builder.equal(organization.get("inn"), dto.getInn());
-            predicates.add(inn);
-        }
-        Predicate[] predicatesArr = new Predicate[predicates.size()];
-        predicates.toArray(predicatesArr);
-        criteria.where(predicatesArr);
+        initMap(dto);
+        List<Predicate> predicatesList = map.entrySet().stream()
+                .filter(pair -> pair.getValue().get() != null)
+                .map(pair -> builder.equal(organization.get(pair.getKey()), pair.getValue().get()))
+                .toList();
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        predicatesList.toArray(predicates);
+        criteria.where(predicates);
         return criteria;
     }
 }
