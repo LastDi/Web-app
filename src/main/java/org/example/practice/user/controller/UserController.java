@@ -35,7 +35,6 @@ public class UserController {
         try {
             userService.add(user);
         } catch (Exception e) { // детализировать Exception
-            System.out.println("CHECK");
             error.replace("error", "User not saved");
             return ResponseEntity.badRequest().body(error);
         }
