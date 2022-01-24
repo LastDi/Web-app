@@ -1,10 +1,12 @@
 package org.example.practice.country.dao;
 
 import org.example.practice.country.entity.Country;
+import org.example.practice.handler.exception.EntityNotFoundException;
 import org.example.practice.user.entity.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -43,7 +45,13 @@ public class CountryDaoImpl implements CountryDao{
     public Country loadByCode(String code) {
         CriteriaQuery<Country> criteria = buildCriteria(code);
         TypedQuery<Country> query = em.createQuery(criteria);
-        return query.getSingleResult();
+        Country country;
+        try {
+            country = query.getSingleResult();
+        } catch (NoResultException e) {
+            throw new EntityNotFoundException("Country not found");
+        }
+        return country;
     }
 
     /**

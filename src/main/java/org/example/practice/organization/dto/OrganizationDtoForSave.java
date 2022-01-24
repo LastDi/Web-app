@@ -1,10 +1,20 @@
 package org.example.practice.organization.dto;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+
+@Validated
 public class OrganizationDtoForSave {
+    @NotBlank
     private String name;
+    @NotBlank
     private String fullName;
+    @NotBlank
     private String inn;
+    @NotBlank
     private String kpp;
+    @NotBlank
     private String address;
     private String phone;
     private boolean active;

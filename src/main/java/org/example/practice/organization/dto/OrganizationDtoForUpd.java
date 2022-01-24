@@ -1,12 +1,23 @@
 package org.example.practice.organization.dto;
 
-public class OrganizationDtoForUpd {
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+@Validated
+public class OrganizationDtoForUpd {
+    @NotNull
     private Long id;
+    @NotBlank
     private String name;
+    @NotBlank
     private String fullName;
+    @NotBlank
     private String inn;
+    @NotBlank
     private String kpp;
+    @NotBlank
     private String address;
     private String phone;
     private boolean active;

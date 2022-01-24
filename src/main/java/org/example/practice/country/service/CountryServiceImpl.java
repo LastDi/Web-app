@@ -3,7 +3,8 @@ package org.example.practice.country.service;
 import org.example.practice.country.dao.CountryDao;
 import org.example.practice.country.dto.CountryDto;
 import org.example.practice.country.entity.Country;
-import org.example.practice.mapper.EntityToDtoMapper;
+import org.example.practice.mapper.EntityToDtoMapperImpl;
+import org.example.practice.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,10 @@ import java.util.List;
 @Service
 public class CountryServiceImpl implements CountryService {
     private final CountryDao dao;
-    private final EntityToDtoMapper mapper;
+    private final Mapper mapper;
 
     @Autowired
-    public CountryServiceImpl(CountryDao dao, EntityToDtoMapper mapper) {
+    public CountryServiceImpl(CountryDao dao, Mapper mapper) {
         this.dao = dao;
         this.mapper = mapper;
     }

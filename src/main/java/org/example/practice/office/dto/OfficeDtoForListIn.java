@@ -1,6 +1,13 @@
 package org.example.practice.office.dto;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+@Validated
 public class OfficeDtoForListIn {
+    @NotNull
     private Long orgId;
     private String name;
     private String phone;

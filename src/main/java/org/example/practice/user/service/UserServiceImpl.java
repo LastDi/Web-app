@@ -4,22 +4,18 @@ import org.example.practice.country.dao.CountryDao;
 import org.example.practice.country.entity.Country;
 import org.example.practice.doc.dao.DocDao;
 import org.example.practice.doc.entity.Doc;
+import org.example.practice.handler.exception.EntityNotFoundException;
+import org.example.practice.mapper.Mapper;
 import org.example.practice.office.dao.OfficeDao;
 import org.example.practice.office.entity.Office;
 import org.example.practice.typedoc.dao.TypeDocDao;
 import org.example.practice.typedoc.entity.TypeDoc;
 import org.example.practice.user.dao.UserDao;
 import org.example.practice.user.dto.*;
-import org.example.practice.mapper.EntityToDtoMapper;
 import org.example.practice.user.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,14 +28,14 @@ public class UserServiceImpl implements UserService {
     private final OfficeDao officeDao;
     private final CountryDao countryDao;
     private final TypeDocDao typeDocDao;
-    private final EntityToDtoMapper mapper;
+    private final Mapper mapper;
     private User user;
     private Doc doc;
     private Country country;
     private Office office;
     private TypeDoc typeDoc;
 
-    public UserServiceImpl(UserDao dao, EntityToDtoMapper mapper, OfficeDao officeDao, CountryDao countryDao, TypeDocDao typeDocDao, DocDao docDao) {
+    public UserServiceImpl(UserDao dao, Mapper mapper, OfficeDao officeDao, CountryDao countryDao, TypeDocDao typeDocDao, DocDao docDao) {
         this.dao = dao;
         this.mapper = mapper;
         this.officeDao = officeDao;
@@ -89,7 +85,7 @@ public class UserServiceImpl implements UserService {
     public UserDto user(Long id) {
         User user = dao.loadById(id);
         if (user == null)
-            throw new IllegalArgumentException("User not found");
+            throw new EntityNotFoundException("User not found");
         return mapper.map(user, UserDto.class);
     }
 
@@ -101,7 +97,7 @@ public class UserServiceImpl implements UserService {
     public void update(UserDtoForUpd dto) {
         user = dao.loadById(dto.getId());
         if (user == null)
-            throw new IllegalArgumentException();
+            throw new EntityNotFoundException("User not found");
         createDoc(dto);
         docDao.update(doc);
         updUser(dto);
@@ -110,6 +106,8 @@ public class UserServiceImpl implements UserService {
 
     private void updUser(UserDtoForUpd dto) {
         office = officeDao.loadById(dto.getOfficeId());
+        if (office == null)
+            throw new EntityNotFoundException("Office not found");
         country = countryDao.loadByCode(dto.getCitizenshipCode());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());

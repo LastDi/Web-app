@@ -3,7 +3,8 @@ package org.example.practice.doc.service;
 import org.example.practice.doc.dao.DocDao;
 import org.example.practice.doc.dto.DocDto;
 import org.example.practice.doc.entity.Doc;
-import org.example.practice.mapper.EntityToDtoMapper;
+import org.example.practice.mapper.EntityToDtoMapperImpl;
+import org.example.practice.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +15,10 @@ import java.util.List;
 public class DocServiceImpl implements DocService {
 
     private final DocDao dao;
-    private final EntityToDtoMapper mapper;
+    private final Mapper mapper;
 
     @Autowired
-    public DocServiceImpl(DocDao dao, EntityToDtoMapper mapper) {
+    public DocServiceImpl(DocDao dao, Mapper mapper) {
         this.dao = dao;
         this.mapper = mapper;
     }

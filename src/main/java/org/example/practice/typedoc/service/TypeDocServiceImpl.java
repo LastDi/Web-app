@@ -1,6 +1,6 @@
 package org.example.practice.typedoc.service;
 
-import org.example.practice.mapper.EntityToDtoMapper;
+import org.example.practice.mapper.Mapper;
 import org.example.practice.typedoc.dao.TypeDocDao;
 import org.example.practice.typedoc.entity.TypeDoc;
 import org.example.practice.typedoc.dto.TypeDocDto;
@@ -13,10 +13,10 @@ import java.util.List;
 @Service
 public class TypeDocServiceImpl implements TypeDocService {
     private final TypeDocDao dao;
-    private final EntityToDtoMapper mapper;
+    private final Mapper mapper;
 
     @Autowired
-    public TypeDocServiceImpl(TypeDocDao dao, EntityToDtoMapper mapper) {
+    public TypeDocServiceImpl(TypeDocDao dao, Mapper mapper) {
         this.dao = dao;
         this.mapper = mapper;
     }

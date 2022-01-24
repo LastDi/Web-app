@@ -1,8 +1,16 @@
 package org.example.practice.organization.dto;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+@Validated
 public class OrganizationDtoForListIn {
-    private String inn;
+    @NotBlank
+    @NotNull
     private String name;
+    private String inn;
     private boolean active;
 
     public OrganizationDtoForListIn() {

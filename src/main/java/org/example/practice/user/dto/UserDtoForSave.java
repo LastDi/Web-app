@@ -1,10 +1,19 @@
 package org.example.practice.user.dto;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+@Validated
 public class UserDtoForSave {
+    @NotNull
     private Long officeId;
+    @NotBlank
     private String firstName;
     private String lastName;
     private String middleName;
+    @NotBlank
     private String position;
     private String phone;
     private String docCode;

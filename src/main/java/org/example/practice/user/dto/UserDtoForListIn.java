@@ -1,6 +1,12 @@
 package org.example.practice.user.dto;
 
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotNull;
+
+@Validated
 public class UserDtoForListIn {
+    @NotNull
     private Long officeId;
     private String firstName;
     private String lastName;

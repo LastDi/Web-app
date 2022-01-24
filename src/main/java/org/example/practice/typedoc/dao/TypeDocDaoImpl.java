@@ -1,11 +1,13 @@
 package org.example.practice.typedoc.dao;
 
+import org.example.practice.handler.exception.EntityNotFoundException;
 import org.example.practice.typedoc.entity.TypeDoc;
 import org.example.practice.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -37,10 +39,16 @@ public class TypeDocDaoImpl implements TypeDocDao {
      * {@inheritDoc}
      */
     @Override
-    public TypeDoc loadByName(String name) {
+    public TypeDoc loadByName(String name) throws NoResultException {
         CriteriaQuery<TypeDoc> criteria = buildCriteria(name);
         TypedQuery<TypeDoc> query = em.createQuery(criteria);
-        return query.getSingleResult();
+        TypeDoc typeDoc;
+        try {
+            typeDoc = query.getSingleResult();
+        } catch (NoResultException e) {
+            throw new EntityNotFoundException("Type of Doc not found");
+        }
+        return typeDoc;
     }
 
     /**

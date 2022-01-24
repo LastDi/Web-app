@@ -9,20 +9,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class EntityToDtoMapper {
+public class EntityToDtoMapperImpl implements Mapper{
     private final ModelMapper modelMapper;
 
     @Autowired
-    public EntityToDtoMapper(ModelMapper modelMapper) {
+    public EntityToDtoMapperImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
+    @Override
     public <D, T> List<D> mapAll(final Collection<T> entityList, Class<D> outCLass) {
         return entityList.stream()
                 .map(entity -> map(entity, outCLass))
                 .collect(Collectors.toList());
     }
 
+    @Override
     public <D, T> D map(final T entity, Class<D> outClass) {
         return modelMapper.map(entity, outClass);
     }

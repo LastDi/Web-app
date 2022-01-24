@@ -1,6 +1,8 @@
 package org.example.practice.organization.service;
 
-import org.example.practice.mapper.EntityToDtoMapper;
+import org.example.practice.handler.exception.EntityNotFoundException;
+import org.example.practice.mapper.EntityToDtoMapperImpl;
+import org.example.practice.mapper.Mapper;
 import org.example.practice.organization.dao.OrganizationDao;
 import org.example.practice.organization.dto.*;
 import org.example.practice.organization.entity.Organization;
@@ -13,10 +15,10 @@ import java.util.List;
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationDao dao;
-    private final EntityToDtoMapper mapper;
+    private final Mapper mapper;
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationDao dao, EntityToDtoMapper mapper) {
+    public OrganizationServiceImpl(OrganizationDao dao, Mapper mapper) {
         this.dao = dao;
         this.mapper = mapper;
     }
@@ -49,7 +51,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void update(OrganizationDtoForUpd dto) {
         Organization organization = dao.loadById(dto.getId());
         if (organization == null)
-            throw new IllegalArgumentException();
+            throw new EntityNotFoundException("Organization not found");
         organization.setName(dto.getName());
         organization.setFullName(dto.getFullName());
         organization.setInn(dto.getInn());
@@ -68,7 +70,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public OrganizationDto organization(Long id) {
         Organization organization = dao.loadById(id);
         if (organization == null)
-            throw new IllegalArgumentException("Organization not found");
+            throw new EntityNotFoundException("Organization not found");
         return mapper.map(organization, OrganizationDto.class);
     }
 

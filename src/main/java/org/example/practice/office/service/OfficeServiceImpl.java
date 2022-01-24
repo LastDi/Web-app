@@ -1,11 +1,12 @@
 package org.example.practice.office.service;
 
-import org.example.practice.mapper.EntityToDtoMapper;
+import org.example.practice.handler.exception.EntityNotFoundException;
+import org.example.practice.mapper.EntityToDtoMapperImpl;
+import org.example.practice.mapper.Mapper;
 import org.example.practice.office.dao.OfficeDao;
 import org.example.practice.office.dto.*;
 import org.example.practice.office.entity.Office;
 import org.example.practice.organization.dao.OrganizationDao;
-import org.example.practice.organization.dto.OrganizationDto;
 import org.example.practice.organization.entity.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ public class OfficeServiceImpl implements OfficeService{
 
     private final OfficeDao dao;
     private final OrganizationDao orgDao;
-    private final EntityToDtoMapper mapper;
+    private final Mapper mapper;
 
     @Autowired
-    public OfficeServiceImpl(OfficeDao dao, OrganizationDao orgDao, EntityToDtoMapper mapper) {
+    public OfficeServiceImpl(OfficeDao dao, OrganizationDao orgDao, Mapper mapper) {
         this.dao = dao;
         this.orgDao = orgDao;
         this.mapper = mapper;
@@ -52,6 +53,8 @@ public class OfficeServiceImpl implements OfficeService{
     @Transactional
     public void update(OfficeDtoForUpd dto) {
         Office office = dao.loadById(dto.getId());
+        if (office == null)
+            throw new EntityNotFoundException("Office not found");
         office.setName(dto.getName());
         office.setAddress(dto.getAddress());
         office.setPhone(dto.getPhone());
@@ -64,7 +67,7 @@ public class OfficeServiceImpl implements OfficeService{
     public OfficeDto office(Long id) {
         Office office = dao.loadById(id);
         if (office == null)
-            throw new IllegalArgumentException("Office not found");
+            throw new EntityNotFoundException("Office not found");
         return mapper.map(office, OfficeDto.class);
     }
 
