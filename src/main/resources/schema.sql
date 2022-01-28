@@ -73,21 +73,21 @@ ALTER TABLE Docs
     ADD FOREIGN KEY (user_id) REFERENCES User (id);
 
 -- Создание внешнего ключа для связи один ко многим таблиц Docs и Type_of_docs
--- CREATE INDEX IX_Doc_Type_Id ON Docs (type_id);
+CREATE INDEX IX_Doc_Type_Id ON Docs (type_id);
 ALTER TABLE Docs
     ADD FOREIGN KEY (type_id) REFERENCES Types_of_docs (id);
 
 -- Создание внешнего ключа для связи один ко многим таблиц User и Office
--- CREATE INDEX IX_User_Office_Id ON User (office_id);
+CREATE INDEX IX_User_Office_Id ON User (office_id);
 ALTER TABLE User
     ADD FOREIGN KEY (office_id) REFERENCES Office (id);
 
 -- Создание внешнего ключа для связи один ко многим таблиц User и Countries
--- CREATE INDEX IX_User_Country_Id ON User (country_id);
+CREATE INDEX IX_User_Country_Id ON User (country_id);
 ALTER TABLE User
     ADD FOREIGN KEY (country_id) REFERENCES Countries (id);
 
 -- Создание внешнего ключа для связи один ко многим таблиц Office и Organization
--- CREATE INDEX IX_Office_Organization_Id ON Office (org_id);
+CREATE INDEX IX_Office_Organization_Id ON Office (org_id);
 ALTER TABLE Office
     ADD FOREIGN KEY (org_id) REFERENCES Organization (id);
