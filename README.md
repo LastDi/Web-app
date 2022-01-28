@@ -22,7 +22,7 @@ http://localhost:8080/api/user/3
 Ответ: 
 <br/>
 <p align="center">
-  <img src="img.png" width="50%" height="50%"/>
+  <img src="https://drive.google.com/file/d/1SPmkOWad8iWR2KkFea3Gx-Nf9bnuM2DB/view?usp=sharing" width="50%" height="50%"/>
 </p>
 
 POST запрос для получения списка пользователей по фильтру:

@@ -25,6 +25,15 @@ public class OrganizationDtoForUpd {
     public OrganizationDtoForUpd() {
     }
 
+    public OrganizationDtoForUpd(Long id, String name, String fullName, String inn, String kpp, String address) {
+        this.id = id;
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.address = address;
+    }
+
     public OrganizationDtoForUpd(Long id, String name, String fullName, String inn, String kpp, String address, String phone, boolean active) {
         this.id = id;
         this.name = name;

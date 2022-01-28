@@ -26,12 +26,12 @@ public class OrganizationController {
     }
 
     @GetMapping("/{id}")
-    public OrganizationDto getOneOrganization(@Validated @PathVariable Long id) {
+    public OrganizationDto getOneOrganization(@PathVariable Long id) {
         return organizationService.organization(id);
     }
 
     @PostMapping("/save")
-    public void saveOrganization(@RequestBody OrganizationDtoForSave dto) {
+    public void saveOrganization(@Validated @RequestBody OrganizationDtoForSave dto) {
         organizationService.add(dto);
     }
 
@@ -41,7 +41,7 @@ public class OrganizationController {
     }
 
     @PostMapping("/update")
-    public void updOrganization(@RequestBody OrganizationDtoForUpd dto) {
+    public void updOrganization(@Validated @RequestBody OrganizationDtoForUpd dto) {
         organizationService.update(dto);
     }
 }

@@ -8,12 +8,16 @@ import javax.validation.constraints.NotNull;
 @Validated
 public class OrganizationDtoForListIn {
     @NotBlank
-    @NotNull
     private String name;
     private String inn;
     private boolean active;
 
     public OrganizationDtoForListIn() {
+    }
+
+    public OrganizationDtoForListIn(String name, boolean active) {
+        this.name = name;
+        this.active = active;
     }
 
     public String getInn() {

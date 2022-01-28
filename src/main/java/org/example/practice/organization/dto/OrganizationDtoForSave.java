@@ -3,6 +3,7 @@ package org.example.practice.organization.dto;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Validated
 public class OrganizationDtoForSave {
@@ -20,6 +21,14 @@ public class OrganizationDtoForSave {
     private boolean active;
 
     public OrganizationDtoForSave() {
+    }
+
+    public OrganizationDtoForSave(String name, String fullName, String inn, String kpp, String address) {
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.address = address;
     }
 
     public OrganizationDtoForSave(String name, String fullName, String inn, String kpp, String address, String phone, boolean active) {
