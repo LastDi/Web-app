@@ -72,14 +72,16 @@ http://localhost:8080/api/organization/update
 ### GET запросы
 ##### для получения элемента по его id (вместо {id} указать нужное значение id)
 ```bash
-http://localhost:8080/api/user/\{id\}
+http://localhost:8080/api/user/{id}
 ```
 ```bash
-http://localhost:8080/api/office/\{id\}
+http://localhost:8080/api/office/{id}
 ```
 ```bash
-http://localhost:8080/api/organization/\{id\}
+http://localhost:8080/api/organization/{id}
 ```
+
+##### список доступных типов документов и гражданств (стран)
 ```bash
 http://localhost:8080/api/docs
 ```
