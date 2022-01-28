@@ -4,7 +4,6 @@ import org.example.practice.country.dao.CountryDao;
 import org.example.practice.country.entity.Country;
 import org.example.practice.doc.dao.DocDao;
 import org.example.practice.doc.entity.Doc;
-import org.example.practice.handler.exception.EntityNotFoundException;
 import org.example.practice.mapper.Mapper;
 import org.example.practice.office.dao.OfficeDao;
 import org.example.practice.office.entity.Office;
@@ -16,7 +15,11 @@ import org.example.practice.user.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * {@inheritDoc}
@@ -31,9 +34,6 @@ public class UserServiceImpl implements UserService {
     private final Mapper mapper;
     private User user;
     private Doc doc;
-    private Country country;
-    private Office office;
-    private TypeDoc typeDoc;
 
     public UserServiceImpl(UserDao dao, Mapper mapper, OfficeDao officeDao, CountryDao countryDao, TypeDocDao typeDocDao, DocDao docDao) {
         this.dao = dao;
@@ -50,13 +50,31 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(UserDtoForSave dto) {
-        office = officeDao.loadById(dto.getOfficeId());
-        country = countryDao.loadByCode(dto.getCitizenshipCode());
-        typeDoc = typeDocDao.loadByName(dto.getDocName());
-        user = new User(dto.getFirstName(), dto.getLastName(), dto.getMiddleName(), dto.getPosition(), dto.getPhone(), office, country, dto.isIdentified());
+        Office office = officeDao.loadById(dto.getOfficeId());
+        Country country = null;
+        if (dto.getCitizenshipCode() != null)
+            country = countryDao.loadByCode(dto.getCitizenshipCode());
+        User user = new User(
+                dto.getFirstName(),
+                dto.getLastName(),
+                dto.getMiddleName(),
+                dto.getPosition(),
+                dto.getPhone(),
+                office, country,
+                dto.isIdentified()
+        );
         dao.save(user);
-        doc = new Doc(user.getId(), dto.getDocNumber(), dto.getDocDate(), typeDoc, user);
-        docDao.save(doc);
+        if (dto.getDocName() != null && dto.getDocNumber() != null && dto.getDocDate() != null) {
+            Doc doc = new Doc(
+                    user.getId(),
+                    dto.getDocNumber(),
+                    dto.getDocDate(),
+                    typeDocDao.loadByName(dto.getDocName()),
+                    user
+            );
+            docDao.save(doc);
+            user.setIdentified(true);
+        }
     }
 
     /**
@@ -84,8 +102,6 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserDto user(Long id) {
         User user = dao.loadById(id);
-        if (user == null)
-            throw new EntityNotFoundException("User not found");
         return mapper.map(user, UserDto.class);
     }
 
@@ -96,35 +112,64 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(UserDtoForUpd dto) {
         user = dao.loadById(dto.getId());
-        if (user == null)
-            throw new EntityNotFoundException("User not found");
-        createDoc(dto);
-        docDao.update(doc);
+        doc = user.getDoc();
+        if (validateDoc(dto))
+            updDoc(dto);
         updUser(dto);
         dao.update(user);
     }
 
+    /**
+     * Обновление данных User
+     * @param dto
+     */
     private void updUser(UserDtoForUpd dto) {
-        office = officeDao.loadById(dto.getOfficeId());
-        if (office == null)
-            throw new EntityNotFoundException("Office not found");
-        country = countryDao.loadByCode(dto.getCitizenshipCode());
         user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setMiddleName(dto.getMiddleName());
         user.setPosition(dto.getPosition());
-        user.setPhone(dto.getPhone());
-        user.setOffice(office);
-        user.setCountry(country);
-        user.setDoc(doc);
+        if (dto.getLastName() != null)
+            user.setLastName(dto.getLastName());
+        if (dto.getMiddleName() != null)
+            user.setMiddleName(dto.getMiddleName());
+        if (dto.getPhone() != null)
+            user.setPhone(dto.getPhone());
+        if (dto.getOfficeId() != null)
+            user.setOffice(officeDao.loadById(dto.getOfficeId()));
+        if (dto.getCitizenshipCode() != null)
+            user.setCountry(countryDao.loadByCode(dto.getCitizenshipCode()));
+        if (doc != null) {
+            user.setDoc(doc);
+            user.setIdentified(true);
+        }
     }
 
-    private void createDoc(UserDtoForUpd dto) {
-        typeDoc = typeDocDao.loadByName(dto.getDocName());
-        doc = docDao.loadById(dto.getId());
-        doc.setTypeDoc(typeDoc);
-        doc.setNumber(dto.getDocNumber());
-        doc.setDate(dto.getDocDate());
+    /**
+     * Обновление данных документа
+     * @param dto
+     */
+    private void updDoc(UserDtoForUpd dto) {
+        if (dto.getDocName() != null)
+            doc.setTypeDoc(typeDocDao.loadByName(dto.getDocName()));
+        if (dto.getDocNumber() != null)
+            doc.setNumber(dto.getDocNumber());
+        if (dto.getDocDate() != null)
+            doc.setDate(dto.getDocDate());
+        docDao.update(doc);
     }
 
+    /**
+     * Валидация данных и создание нового документа, в случае его отсутствия
+     * @param dto
+     * @return boolean
+     */
+    private boolean validateDoc(UserDtoForUpd dto) {
+        if (doc == null) {
+            if (dto.getDocName() != null && dto.getDocNumber() != null && dto.getDocDate() != null) {
+                doc = new Doc(dto.getId(), user);
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
 }

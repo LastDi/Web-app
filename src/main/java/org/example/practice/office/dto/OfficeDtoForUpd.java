@@ -19,6 +19,12 @@ public class OfficeDtoForUpd {
     public OfficeDtoForUpd() {
     }
 
+    public OfficeDtoForUpd(Long id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
     public Long getId() {
         return id;
     }

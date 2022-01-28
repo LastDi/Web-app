@@ -16,6 +16,20 @@ public class OfficeDtoForListIn {
     public OfficeDtoForListIn() {
     }
 
+    public OfficeDtoForListIn(Long orgId) {
+        this.orgId = orgId;
+    }
+
+    public OfficeDtoForListIn(Long orgId, boolean active) {
+        this.orgId = orgId;
+        this.active = active;
+    }
+
+    public OfficeDtoForListIn(Long orgId, String name) {
+        this.orgId = orgId;
+        this.name = name;
+    }
+
     public Long getOrgId() {
         return orgId;
     }

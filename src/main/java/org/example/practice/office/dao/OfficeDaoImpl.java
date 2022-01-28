@@ -1,5 +1,6 @@
 package org.example.practice.office.dao;
 
+import org.example.practice.handler.exception.EntityNotFoundException;
 import org.example.practice.office.dto.OfficeDtoForListIn;
 import org.example.practice.office.entity.Office;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,10 @@ public class OfficeDaoImpl implements OfficeDao{
      */
     @Override
     public Office loadById(Long id) {
-        return em.find(Office.class, id);
+        Office office = em.find(Office.class, id);
+        if (office == null)
+            throw new EntityNotFoundException("Office not found");
+        return office;
     }
 
     /**

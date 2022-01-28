@@ -8,6 +8,9 @@ public class EntityNotFoundException extends RuntimeException{
     public EntityNotFoundException() {
     }
 
+    /**
+     * Custom exception to use when entity not found in DB
+     */
     public EntityNotFoundException(String message) {
         super(message);
         this.errorMessage = Map.of("error", message);

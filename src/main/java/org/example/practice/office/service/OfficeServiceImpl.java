@@ -53,12 +53,11 @@ public class OfficeServiceImpl implements OfficeService{
     @Transactional
     public void update(OfficeDtoForUpd dto) {
         Office office = dao.loadById(dto.getId());
-        if (office == null)
-            throw new EntityNotFoundException("Office not found");
         office.setName(dto.getName());
         office.setAddress(dto.getAddress());
-        office.setPhone(dto.getPhone());
         office.setActive(dto.isActive());
+        if (office.getPhone() != null)
+            office.setPhone(dto.getPhone());
         dao.update(office);
     }
 
@@ -66,8 +65,6 @@ public class OfficeServiceImpl implements OfficeService{
     @Transactional(readOnly = true)
     public OfficeDto office(Long id) {
         Office office = dao.loadById(id);
-        if (office == null)
-            throw new EntityNotFoundException("Office not found");
         return mapper.map(office, OfficeDto.class);
     }
 

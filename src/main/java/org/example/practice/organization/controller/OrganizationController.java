@@ -26,26 +26,22 @@ public class OrganizationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOneOrganization(@Validated @PathVariable Long id) {
-        OrganizationDto organizationDto = organizationService.organization(id);
-        return new ResponseEntity<>(organizationDto, HttpStatus.OK);
+    public OrganizationDto getOneOrganization(@Validated @PathVariable Long id) {
+        return organizationService.organization(id);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveOrganization(@RequestBody OrganizationDtoForSave dto) {
+    public void saveOrganization(@RequestBody OrganizationDtoForSave dto) {
         organizationService.add(dto);
-        return ResponseEntity.ok().body(Map.of("result", "success"));
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<?> updOrganization(@RequestBody OrganizationDtoForUpd dto) {
-        organizationService.update(dto);
-        return ResponseEntity.ok().body(Map.of("result", "succsess"));
     }
 
     @PostMapping("/list")
-    public ResponseEntity<?> getOrganizations(@Validated @RequestBody OrganizationDtoForListIn dto) {
-        List<OrganizationDtoForListOut> organizations = organizationService.organizationsByTerms(dto);
-        return ResponseEntity.ok().body(organizations);
+    public List<OrganizationDtoForListOut> getOrganizations(@Validated @RequestBody OrganizationDtoForListIn dto) {
+        return organizationService.organizationsByTerms(dto);
+    }
+
+    @PostMapping("/update")
+    public void updOrganization(@RequestBody OrganizationDtoForUpd dto) {
+        organizationService.update(dto);
     }
 }

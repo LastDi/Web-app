@@ -44,12 +44,9 @@ public class Office {
     /**
      * Организация
      */
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
     private Organization organization;
-
-//    @OneToMany(mappedBy = "office", fetch = FetchType.LAZY)
-//    private Set<User> users;
 
     /**
      * Конструктор для hibernate

@@ -46,5 +46,4 @@ public interface DocDao {
      * @param doc
      */
     void update(Doc doc);
-
 }

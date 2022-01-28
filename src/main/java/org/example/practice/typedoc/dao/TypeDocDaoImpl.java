@@ -39,7 +39,7 @@ public class TypeDocDaoImpl implements TypeDocDao {
      * {@inheritDoc}
      */
     @Override
-    public TypeDoc loadByName(String name) throws NoResultException {
+    public TypeDoc loadByName(String name) {
         CriteriaQuery<TypeDoc> criteria = buildCriteria(name);
         TypedQuery<TypeDoc> query = em.createQuery(criteria);
         TypeDoc typeDoc;

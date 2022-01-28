@@ -1,5 +1,6 @@
 package org.example.practice.user.dao;
 
+import org.example.practice.handler.exception.EntityNotFoundException;
 import org.example.practice.user.dto.UserDtoForListIn;
 import org.example.practice.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,10 @@ public class UserDaoImpl implements UserDao{
      */
     @Override
     public User loadById(Long id) {
-        return em.find(User.class, id);
+        User user = em.find(User.class, id);
+        if (user == null)
+            throw new EntityNotFoundException("User not found");
+        return user;
     }
 
     /**

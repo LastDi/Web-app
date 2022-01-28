@@ -1,6 +1,7 @@
 package org.example.practice.user.service;
 
 import org.example.practice.user.dto.*;
+import org.example.practice.user.entity.User;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;

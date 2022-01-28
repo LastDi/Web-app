@@ -1,16 +1,12 @@
 package org.example.practice.office.controller;
 
 import org.example.practice.office.dto.*;
-import org.example.practice.office.entity.Office;
 import org.example.practice.office.service.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -25,25 +21,22 @@ public class OfficeController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getOneOffice(@PathVariable Long id) {
-        OfficeDto dto = officeService.office(id);
-        return ResponseEntity.ok().body(dto);
+    public OfficeDto getOneOffice(@PathVariable Long id) {
+        return officeService.office(id);
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<?> saveOffice(@Validated @RequestBody OfficeDtoForSave dto) {
+    public void saveOffice(@Validated @RequestBody OfficeDtoForSave dto) {
         officeService.add(dto);
-        return ResponseEntity.ok().body(Map.of("result", "success"));
-    }
-
-    @PutMapping(value = "/update")
-    public ResponseEntity<?> updOffice(@Validated @RequestBody OfficeDtoForUpd dto) {
-        officeService.update(dto);
-        return ResponseEntity.ok().body(Map.of("result", "success"));
     }
 
     @PostMapping(value = "/list")
-    public ResponseEntity<?>  getOffices(@Validated @RequestBody OfficeDtoForListIn dto) {
-        return ResponseEntity.ok().body(officeService.officesByTerms(dto));
+    public List<OfficeDtoForListOut>  getOffices(@Validated @RequestBody OfficeDtoForListIn dto) {
+        return officeService.officesByTerms(dto);
+    }
+
+    @PostMapping(value = "/update")
+    public void updOffice(@Validated @RequestBody OfficeDtoForUpd dto) {
+        officeService.update(dto);
     }
 }

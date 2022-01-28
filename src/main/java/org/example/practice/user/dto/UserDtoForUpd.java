@@ -26,6 +26,16 @@ public class UserDtoForUpd {
     public UserDtoForUpd() {
     }
 
+    public UserDtoForUpd(Long id) {
+        Id = id;
+    }
+
+    public UserDtoForUpd(Long id, String firstName, String position) {
+        Id = id;
+        this.firstName = firstName;
+        this.position = position;
+    }
+
     public Long getId() {
         return Id;
     }

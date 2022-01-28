@@ -6,13 +6,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.Map;
-
 @ControllerAdvice
 public class ProjectExceptionHandler {
 
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<?> entityNotFoundException(EntityNotFoundException entityNotFoundException) {
         return new ResponseEntity<>(entityNotFoundException.getExcMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = NullPointerException.class)
+    public void nullPointerException(NullPointerException nullPointerException) {
+        System.out.println(nullPointerException.getMessage()); // if you use Log, save this Exception to Log;
     }
 }

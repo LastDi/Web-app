@@ -2,7 +2,7 @@
 
 INSERT INTO Types_of_docs (id, version, name, code) VALUES (1, 0, 'Свидетельство о рождении', '03');
 
-INSERT INTO Types_of_docs (id, version, name, code) VALUES (2, 0, 'Военный билет ', '07');
+INSERT INTO Types_of_docs (id, version, name, code) VALUES (2, 0, 'Военный билет', '07');
 
 INSERT INTO Types_of_docs (id, version, name, code) VALUES (3, 0, 'Паспорт иностранного гражданина', '10');
 
@@ -18,7 +18,7 @@ INSERT INTO Countries (id, version, name, code) VALUES (2, 0, 'США', '170');
 
 INSERT INTO Countries (id, version, name, code) VALUES (3, 0, 'Украина', '222');
 
-INSERT INTO Countries (id, version, name, code) VALUES (4, 0, 'Австралия', '222');
+INSERT INTO Countries (id, version, name, code) VALUES (4, 0, 'Австралия', '333');
 
 ----------------------------------------- Добавляем организации---------------------------------------------------------
 
@@ -42,7 +42,7 @@ INSERT INTO User (id, version, first_name, position, office_id, country_id, iden
 
 INSERT INTO User (id, version, first_name, position, office_id, country_id, identified) VALUES (4, 0, 'Иван', 'Менеджер', 1, 2, TRUE);
 
-INSERT INTO User (id, version, first_name, position, office_id, country_id, identified) VALUES (5, 0, 'Петр', 'Консультант', 2, 2, TRUE);
+INSERT INTO User (id, version, first_name, position, office_id, country_id, identified) VALUES (5, 0, 'Алексей', 'Консультант', 2, 2, TRUE);
 
 ----------------------------------------- Добавляем документы-----------------------------------------------------------
 

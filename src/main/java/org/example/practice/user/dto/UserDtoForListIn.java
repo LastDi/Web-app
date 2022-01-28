@@ -28,6 +28,15 @@ public class UserDtoForListIn {
         this.citizenshipCode = citizenshipCode;
     }
 
+    public UserDtoForListIn(Long officeId) {
+        this.officeId = officeId;
+    }
+
+    public UserDtoForListIn(Long officeId, String firstName) {
+        this.officeId = officeId;
+        this.firstName = firstName;
+    }
+
     public Long getOfficeId() {
         return officeId;
     }

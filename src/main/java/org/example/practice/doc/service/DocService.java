@@ -13,13 +13,6 @@ import java.util.List;
 public interface DocService {
 
     /**
-     * Добавить новый документ в БД
-     *
-     * @param docDto
-     */
-    void add(@Valid DocDto docDto);
-
-    /**
      * Получить список документов
      *
      * @return {@Doc}

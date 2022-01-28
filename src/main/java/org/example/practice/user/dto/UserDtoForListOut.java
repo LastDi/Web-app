@@ -13,6 +13,12 @@ public class UserDtoForListOut {
     public UserDtoForListOut() {
     }
 
+    public UserDtoForListOut(Long id, String firstName, String position) {
+        this.id = id;
+        this.firstName = firstName;
+        this.position = position;
+    }
+
     public Long getId() {
         return id;
     }

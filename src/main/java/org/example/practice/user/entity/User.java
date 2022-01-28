@@ -6,6 +6,7 @@ import org.example.practice.doc.entity.Doc;
 import org.example.practice.office.entity.Office;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Человек
@@ -77,11 +78,11 @@ public class User {
      * Гражданство
      */
     @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
+    @JoinColumn(name = "country_id")
     private Country country;
 
     /**
-     * Идентификация БОРНА "ЛШТШФУМ Ащьф"
+     * Идентификация
      */
     private Boolean identified;
 
@@ -104,6 +105,20 @@ public class User {
         this.position = position;
         this.phone = phone;
         this.office = office;
+        this.country = country;
+        this.identified = identified;
+    }
+
+    public User(Long id, Integer version, String firstName, String lastName, String middleName, String position, String phone, Office office, Doc doc, Country country, Boolean identified) {
+        this.id = id;
+        this.version = version;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.position = position;
+        this.phone = phone;
+        this.office = office;
+        this.doc = doc;
         this.country = country;
         this.identified = identified;
     }
@@ -199,4 +214,26 @@ public class User {
                 ", identified=" + identified +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId().equals(user.getId()) && getFirstName().equals(user.getFirstName())
+                && Objects.equals(getLastName(), user.getLastName())
+                && Objects.equals(getMiddleName(), user.getMiddleName())
+                && getPosition().equals(user.getPosition())
+                && Objects.equals(getPhone(), user.getPhone())
+                && getOffice().equals(user.getOffice())
+                && getDoc().equals(user.getDoc())
+                && getCountry().equals(user.getCountry())
+                && getIdentified().equals(user.getIdentified());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFirstName(), getLastName(), getMiddleName(), getPosition(), getPhone(), getOffice(), getDoc(), getCountry(), getIdentified());
+    }
+
 }

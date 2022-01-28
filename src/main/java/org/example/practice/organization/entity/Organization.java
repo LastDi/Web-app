@@ -4,6 +4,7 @@ import org.example.practice.office.entity.Office;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -63,10 +64,6 @@ public class Organization {
     @Column(name = "active")
     private boolean active;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "org_id")
-//    private Set<Office> offices;
-
     /**
      * Конструктор для hibernate
      */
@@ -82,19 +79,20 @@ public class Organization {
         this.active = active;
     }
 
+    public Organization(Long id, String name, String fullName, String inn, String kpp, String address, String phone, boolean active) {
+        this.id = id;
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.address = address;
+        this.phone = phone;
+        this.active = active;
+    }
+
     public Long getId() {
         return id;
     }
-
-//    public Set<Office> getOffices() {
-//        if (offices == null)
-//            return new HashSet<>();
-//        return offices;
-//    }
-//
-//    public void setOffices(Set<Office> offices) {
-//        this.offices = offices;
-//    }
 
     public String getName() {
         return name;
@@ -164,5 +162,25 @@ public class Organization {
                 ", phone='" + phone + '\'' +
                 ", active=" + active +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return isActive() == that.isActive()
+                && getId().equals(that.getId())
+                && getName().equals(that.getName())
+                && getFullName().equals(that.getFullName())
+                && getInn().equals(that.getInn())
+                && getKpp().equals(that.getKpp())
+                && getAddress().equals(that.getAddress())
+                && Objects.equals(getPhone(), that.getPhone());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getFullName(), getInn(), getKpp(), getAddress(), getPhone(), isActive());
     }
 }

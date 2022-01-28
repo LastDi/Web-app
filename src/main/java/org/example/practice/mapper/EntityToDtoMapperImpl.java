@@ -17,6 +17,9 @@ public class EntityToDtoMapperImpl implements Mapper{
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <D, T> List<D> mapAll(final Collection<T> entityList, Class<D> outCLass) {
         return entityList.stream()
@@ -24,6 +27,9 @@ public class EntityToDtoMapperImpl implements Mapper{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <D, T> D map(final T entity, Class<D> outClass) {
         return modelMapper.map(entity, outClass);

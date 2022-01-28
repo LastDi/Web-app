@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS User
     position    VARCHAR(30) NOT NULL COMMENT 'Должность',
     phone       VARCHAR(20)          COMMENT 'Телефон',
     office_id   INTEGER     NOT NULL COMMENT 'Идентификатор офиса',
-    country_id  INTEGER     NOT NULL COMMENT 'Идентификатор гражданства',
+    country_id  INTEGER              COMMENT 'Идентификатор гражданства',
     identified  BOOLEAN
 );
 COMMENT ON TABLE User IS 'Пользователь';

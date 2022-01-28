@@ -1,5 +1,6 @@
 package org.example.practice.organization.dao;
 
+import org.example.practice.handler.exception.EntityNotFoundException;
 import org.example.practice.organization.dto.OrganizationDtoForListIn;
 import org.example.practice.organization.entity.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,10 @@ public class OrganizationDaoImpl implements OrganizationDao {
      */
     @Override
     public Organization loadById(Long id) {
-        return em.find(Organization.class, id);
+        Organization organization = em.find(Organization.class, id);
+        if (organization == null)
+            throw new EntityNotFoundException("Organization not found");
+        return organization;
     }
 
 

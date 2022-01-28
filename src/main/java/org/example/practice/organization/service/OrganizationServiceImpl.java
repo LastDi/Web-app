@@ -29,7 +29,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional
     public void add(OrganizationDtoForSave dto) {
-        Organization organization = new Organization(dto.getName(), dto.getFullName(), dto.getInn(), dto.getKpp(), dto.getAddress(), dto.getPhone(), dto.isActive());
+        Organization organization = new Organization (
+                dto.getName(),
+                dto.getFullName(),
+                dto.getInn(),
+                dto.getKpp(),
+                dto.getAddress(),
+                dto.getPhone(),
+                dto.isActive()
+        );
         dao.save(organization);
     }
 
@@ -50,15 +58,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void update(OrganizationDtoForUpd dto) {
         Organization organization = dao.loadById(dto.getId());
-        if (organization == null)
-            throw new EntityNotFoundException("Organization not found");
         organization.setName(dto.getName());
         organization.setFullName(dto.getFullName());
         organization.setInn(dto.getInn());
         organization.setKpp(dto.getKpp());
         organization.setAddress(dto.getAddress());
-        organization.setPhone(dto.getPhone());
         organization.setActive(dto.isActive());
+        if (dto.getPhone() != null)
+            organization.setPhone(dto.getPhone());
         dao.update(organization);
     }
 
@@ -69,11 +76,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     public OrganizationDto organization(Long id) {
         Organization organization = dao.loadById(id);
-        if (organization == null)
-            throw new EntityNotFoundException("Organization not found");
         return mapper.map(organization, OrganizationDto.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<OrganizationDtoForListOut> organizationsByTerms(OrganizationDtoForListIn dto) {
         return mapper.mapAll(dao.allByTerms(dto), OrganizationDtoForListOut.class);

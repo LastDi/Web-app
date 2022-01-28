@@ -26,6 +26,12 @@ public class UserDtoForSave {
     public UserDtoForSave() {
     }
 
+    public UserDtoForSave(Long officeId, String firstName, String position) {
+        this.officeId = officeId;
+        this.firstName = firstName;
+        this.position = position;
+    }
+
     public Long getOfficeId() {
         return officeId;
     }

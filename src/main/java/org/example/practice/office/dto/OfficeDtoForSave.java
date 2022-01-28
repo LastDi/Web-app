@@ -2,18 +2,27 @@ package org.example.practice.office.dto;
 
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Validated
 public class OfficeDtoForSave {
     @NotNull
     private Long orgId;
+    @NotBlank
     private String name;
+    @NotBlank
     private String address;
     private String phone;
     private boolean active;
 
     public OfficeDtoForSave() {
+    }
+
+    public OfficeDtoForSave(Long orgId, String name, String address) {
+        this.orgId = orgId;
+        this.name = name;
+        this.address = address;
     }
 
     public Long getOrgId() {
