@@ -15,27 +15,36 @@ git clone https://github.com/y3ll0w42/libft-war-machine
 ```
 
 # Примеры некоторых запросов и ответов
-GET запрос для получения пользователя по id:
-[GET](http://localhost:8080/api/user/3)
-Ответ:
+GET запрос для получения пользователя по id (Например id = 3):
+```bash
+http://localhost:8080/api/user/3
+```
+Ответ: <br/>
 ![img.png](img.png)
 
 POST запрос для получения списка пользователей по фильтру:
-[POST](http://localhost:8080/api/user/list)
+```bash
+http://localhost:8080/api/user/list
+```
 ![img_1.png](img_1.png)
-Ответ:
+Ответ: <br/>
 ![img_2.png](img_2.png)
 
 POST запрос для сохранения офиса
-[POST](http://localhost:8080/api/office/save)
+```bash
+http://localhost:8080/api/office/save
+```
 ![img_3.png](img_3.png)
-Ответ:
+Ответ: <br/>
 ![img_4.png](img_4.png)
 
 POST запрос для обновления данных организации
-[POST](http://localhost:8080/api/organization/update)
+```bash
+http://localhost:8080/api/organization/update
+```
 ![img_5.png](img_5.png)
 Ответ:
+
 ![img_6.png](img_6.png)
 
 
