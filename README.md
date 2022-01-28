@@ -21,41 +21,50 @@ http://localhost:8080/api/user/3
 ```
 Ответ: 
 <br/>
-
 <p align="center">
   <img src="img.png" width="50%" height="50%"/>
 </p>
-
-![img.png](img.png)
 
 POST запрос для получения списка пользователей по фильтру:
 ```bash
 http://localhost:8080/api/user/list
 ```
-![img_1.png](img_1.png)
+<p align="center">
+  <img src="img_1.png" width="50%" height="50%"/>
+</p>
 <br/>
 Ответ: 
 <br/>
-![img_2.png](img_2.png)
+<p align="center">
+  <img src="img_2.png" width="50%" height="50%"/>
+</p>
 
 POST запрос для сохранения офиса
 ```bash
 http://localhost:8080/api/office/save
 ```
-![img_3.png](img_3.png)
+<p align="center">
+  <img src="img_3.png" width="50%" height="50%"/>
+</p>
 <br/>
 Ответ: 
 <br/>
-![img_4.png](img_4.png)
+<p align="center">
+  <img src="img_4.png" width="50%" height="50%"/>
+</p>
 
 POST запрос для обновления данных организации
 ```bash
 http://localhost:8080/api/organization/update
 ```
-![img_5.png](img_5.png)
+<p align="center">
+  <img src="img_5.png" width="50%" height="50%"/>
+</p>
 <br/>
 Ответ:
 <br/>
-![img_6.png](img_6.png)
+<p align="center">
+  <img src="img_6.png" width="50%" height="50%"/>
+</p>
 
 
