@@ -21,7 +21,11 @@ http://localhost:8080/api/user/3
 ```
 Ответ: 
 <br/>
-<img src="img.png" width="50%" height="50%"/>
+
+<p align="center">
+  <img src="img.png" width="50%" height="50%"/>
+</p>
+
 ![img.png](img.png)
 
 POST запрос для получения списка пользователей по фильтру:
