@@ -22,7 +22,7 @@ http://localhost:8080/api/user/3
 Ответ: 
 <br/>
 <p align="center">
-  <img src="https://i.ibb.co/MVT1D6x/img.png" width="50%" height="50%"/>
+  <img src="https://i.ibb.co/MVT1D6x/img.png"/>
 </p>
 
 POST запрос для получения списка пользователей по фильтру:
