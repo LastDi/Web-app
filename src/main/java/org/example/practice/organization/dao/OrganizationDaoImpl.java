@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Repository
 public class OrganizationDaoImpl implements OrganizationDao {
@@ -81,7 +82,6 @@ public class OrganizationDaoImpl implements OrganizationDao {
         if (map == null)
             map = new HashMap<>();
         map.put("name", dto::getName);
-        map.put("active", dto::isActive);
         map.put("inn", dto::getInn);
     }
 
@@ -92,7 +92,11 @@ public class OrganizationDaoImpl implements OrganizationDao {
         List<Predicate> predicatesList = map.entrySet().stream()
                 .filter(pair -> pair.getValue().get() != null)
                 .map(pair -> builder.equal(organization.get(pair.getKey()), pair.getValue().get()))
-                .toList();
+                .collect(Collectors.toList());
+        if (dto.isActive() != null) {
+            Predicate isActive = builder.equal(organization.get("active"), Boolean.parseBoolean(dto.isActive()));
+            predicatesList.add(isActive);
+        }
         Predicate[] predicates = new Predicate[predicatesList.size()];
         predicatesList.toArray(predicates);
         criteria.where(predicates);

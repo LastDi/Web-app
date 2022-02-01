@@ -1,7 +1,7 @@
 # Bell Integrator study project
 Данный проект выполнен в рамках онлайн-стажировки в компании "Bell Integrator". <br/>
-Проект представляет собой API web-сервис для сохранения, обновления и получения списка пользователей, офисов и организаций. <br/>
-Проект написан с использованием Spring Boot, JDBC, JPA, REST API. <br/>
+Проект представляет собой web-сервис для сохранения, обновления и получения списка пользователей, офисов и организаций. <br/>
+Проект написан с использованием Spring Boot, JDBC, JPA, REST API, JUnit<br/>
 В качестве базы даннных исользуется H2. <br/>
 Сборка проекта и управление зависимостями осуществляется с помощью Maven. <br/>
 Версия Java - 17. <br/>
@@ -9,15 +9,15 @@
 ### Запуск проекта
 Для того, чтобы запустить данный проект, необходимо скопировать репозиторий к себе на компьютер, 
 следующей командой в терминале.
-##### Command
+###### Ссылка на репозиторий для запуска в терминале
 ```bash
 git clone https://github.com/LastDi/bell
 ```
 
-### Примеры некоторых запросов и ответов
+### Примеры всех видов запросов и ответов на них
 GET запрос для получения пользователя по id (Например id = 3):
 ```bash
-http://localhost:8080/api/user/3
+/api/user/3
 ```
 Ответ: 
 <br/>
@@ -27,7 +27,7 @@ http://localhost:8080/api/user/3
 
 POST запрос для получения списка пользователей по фильтру:
 ```bash
-http://localhost:8080/api/user/list
+/api/user/list
 ```
 <p align="center">
   <img src="https://i.ibb.co/RTC31hP/img-1.png" width="50%" height="50%"/>
@@ -41,7 +41,7 @@ http://localhost:8080/api/user/list
 
 POST запрос для сохранения офиса
 ```bash
-http://localhost:8080/api/office/save
+/api/office/save
 ```
 <p align="center">
   <img src="https://i.ibb.co/9tNY646/img-3.png" width="50%" height="50%"/>
@@ -55,7 +55,7 @@ http://localhost:8080/api/office/save
 
 POST запрос для обновления данных организации
 ```bash
-http://localhost:8080/api/organization/update
+/api/organization/update
 ```
 <p align="center">
   <img src="https://i.ibb.co/vhZyhD8/img-5.png" width="50%" height="50%"/>
@@ -69,54 +69,134 @@ http://localhost:8080/api/organization/update
 <br/>
 
 Далее перечислены все доступные запросы: <br/>
-### GET запросы
+#### GET запросы
+Для отправки данных запросов можно использовать браузер.
 ##### для получения элемента по его id (вместо {id} указать нужное значение id)
 ```bash
-http://localhost:8080/api/user/{id}
+/api/user/{id}
 ```
 ```bash
-http://localhost:8080/api/office/{id}
+/api/office/{id}
 ```
 ```bash
-http://localhost:8080/api/organization/{id}
+/api/organization/{id}
 ```
 
 ##### список доступных типов документов и гражданств (стран)
 ```bash
-http://localhost:8080/api/docs
+/api/docs
 ```
 ```bash
-http://localhost:8080/api/countries
+/api/countries
 ```
 
-### POST запросы
+#### POST запросы
+Для отправки данных запросов, необходимо использовать программу, с возможностью добавления тела запроса (например Postman)
 ##### для получения списка по фильтру
+Получить список пользователей соответсвующих следующим условиям, указанным в теле запроса
+(в данном примере и последующих, обязательные для заполнения поля помечены звездочкой):
+\* "officeId"
+"firstName" - имя
+"lastName" - фамилия
+"middleName" - отчество
+"position" - должность
+"docCode" - код документа
+"citizenshipCode" - код гражданства
 ```bash
-http://localhost:8080/api/user/list
+/api/user/list
 ```
+Получить список офисов соответсвующих следующим условиям, указанным в теле запроса
+\* "orgId" - айди организации, которой принадлежит офис
+"name" - название офиса
+"phone" - телефон офиса
+"isActive" - действует ли офис (Здесь и далее параметры начинающиеся на is* заполняются булевыми значениями true или false)
 ```bash
-http://localhost:8080/api/office/list
+/api/office/list
 ```
+\* "name" - название организации
+"inn" - ИНН организации
+"isActive" - действует ли организация
 ```bash
-http://localhost:8080/api/organization/list
+/api/organization/list
 ```
+
 ##### для сохранения элемента в базе
+Запрос для сохранения нового пользователя в базе данных
+\* "officeId" - айди офиса, в котором работает пользователь
+\* "firstName" - имя
+"secondName" - фамилия
+"middleName" - отчество
+\* "position" - должность
+"phone" - телефон
+"docCode" - код документа
+"docName" - имя документа
+"docNumber" - номер документа
+"docDate" - дата выдачи документа в формате: "yyyy-MM-dd"
+"citizenshipCode" - код гражданства
+"isIdentified" - идентифицирован ли пользователь
 ```bash
-http://localhost:8080/api/user/save
+/api/user/save
 ```
+
+Запрос для сохранения нового офиса в базе данных
+\* "orgId" - айди организации
+"name" - название офиса
+"address" - адрес офиса
+"phone" - телефон офиса
+"isActive" - действует ли офис
 ```bash
-http://localhost:8080/api/office/save
+/api/office/save
 ```
+
+Запрос для сохранения новой организации в базе данных
+\* "name" - название организации
+\* "fullName" - полное название
+\* "inn" - ИНН
+\* "kpp" - КПП
+\* "address" - адрес организации
+"phone" - телефон
+"isActive" - действует ли организация
 ```bash
-http://localhost:8080/api/organization/save
+/api/organization/save
 ```
 ##### для обновления данных
+Запрос для обновления данных пользователя в базе данных
+\* "id" - айди пользователя
+"officeId" - айди офиса, в котором работает пользователь
+\* "firstName" - имя
+"secondName" - фамилия
+"middleName" - отчество
+\* "position" - должность
+"phone" - телефон
+"docCode" - код документа
+"docName" - имя документа
+"docNumber" - номер документа
+"docDate" - дата выдачи документа в формате: "yyyy-MM-dd"
+"citizenshipCode" - код гражданства
+"isIdentified" - идентифицирован ли пользователь
 ```bash
-http://localhost:8080/api/user/update
+/api/user/update
 ```
+
+Запрос для обновления данных офиса в базе данных
+\* "id" - айди офиса
+"name" - название офиса
+"address" - адрес офиса
+"phone" - телефон офиса
+"isActive" - действует ли офис
 ```bash
-http://localhost:8080/api/office/update
+/api/office/update
 ```
+
+Запрос для обновления данных организации в базе данных
+\* "id" - айди организации
+\* "name" - название организации
+\* "fullName" - полное название
+\* "inn" - ИНН
+\* "kpp" - КПП
+\* "address" - адрес организации
+"phone" - телефон
+"isActive" - действует ли организация
 ```bash
-http://localhost:8080/api/organization/update
+/api/organization/update
 ```

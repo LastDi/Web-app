@@ -21,7 +21,7 @@ public class UserDtoForSave {
     private String docNumber;
     private String docDate;
     private String citizenshipCode;
-    private boolean identified;
+    private String identified;
 
     public UserDtoForSave() {
     }
@@ -120,11 +120,11 @@ public class UserDtoForSave {
         this.citizenshipCode = citizenshipCode;
     }
 
-    public boolean isIdentified() {
+    public String isIdentified() {
         return identified;
     }
 
-    public void setIdentified(boolean identified) {
+    public void setIdentified(String identified) {
         this.identified = identified;
     }
 

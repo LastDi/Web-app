@@ -1,25 +1,30 @@
 package org.example.practice.doc.dao;
 
 import org.example.practice.doc.entity.Doc;
+import org.example.practice.handler.exception.DateParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Repository
 public class DocDaoImpl implements DocDao{
 
     private final EntityManager em;
+    private final DateTimeFormatter formatter;
 
     @Autowired
-    public DocDaoImpl(EntityManager em) {
+    public DocDaoImpl(EntityManager em, DateTimeFormatter formatter) {
         this.em = em;
+        this.formatter = formatter;
     }
 
     /**
@@ -54,6 +59,7 @@ public class DocDaoImpl implements DocDao{
      */
     @Override
     public void save(Doc doc) {
+        validDate(doc.getDate());
         em.persist(doc);
     }
 
@@ -62,6 +68,7 @@ public class DocDaoImpl implements DocDao{
      */
     @Override
     public void update(Doc doc) {
+        validDate(doc.getDate());
         em.merge(doc);
     }
 
@@ -72,5 +79,14 @@ public class DocDaoImpl implements DocDao{
         criteria.where(cb.equal(docs.get("number"), number));
         return criteria;
 
+    }
+
+
+    private void validDate(String date) {
+        try {
+            LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException e) {
+            throw new DateParseException("Input date format: 'yyyy-MM-dd'. Please, try again.");
+        }
     }
 }

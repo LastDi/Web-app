@@ -1,5 +1,8 @@
 package org.example.practice.handler.data;
 
+/**
+ * DTO для представления
+ */
 public class DataDto {
     Object data;
 

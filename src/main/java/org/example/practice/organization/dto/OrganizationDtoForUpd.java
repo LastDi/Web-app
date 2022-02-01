@@ -20,7 +20,7 @@ public class OrganizationDtoForUpd {
     @NotBlank
     private String address;
     private String phone;
-    private boolean active;
+    private String active;
 
     public OrganizationDtoForUpd() {
     }
@@ -34,7 +34,7 @@ public class OrganizationDtoForUpd {
         this.address = address;
     }
 
-    public OrganizationDtoForUpd(Long id, String name, String fullName, String inn, String kpp, String address, String phone, boolean active) {
+    public OrganizationDtoForUpd(Long id, String name, String fullName, String inn, String kpp, String address, String phone, String active) {
         this.id = id;
         this.name = name;
         this.fullName = fullName;
@@ -101,11 +101,11 @@ public class OrganizationDtoForUpd {
         this.phone = phone;
     }
 
-    public boolean isActive() {
+    public String isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(String active) {
         this.active = active;
     }
 }

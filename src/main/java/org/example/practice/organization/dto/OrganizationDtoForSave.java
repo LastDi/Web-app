@@ -18,7 +18,7 @@ public class OrganizationDtoForSave {
     @NotBlank
     private String address;
     private String phone;
-    private boolean active;
+    private String active;
 
     public OrganizationDtoForSave() {
     }
@@ -31,7 +31,7 @@ public class OrganizationDtoForSave {
         this.address = address;
     }
 
-    public OrganizationDtoForSave(String name, String fullName, String inn, String kpp, String address, String phone, boolean active) {
+    public OrganizationDtoForSave(String name, String fullName, String inn, String kpp, String address, String phone, String active) {
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;
@@ -89,11 +89,11 @@ public class OrganizationDtoForSave {
         this.phone = phone;
     }
 
-    public boolean isActive() {
+    public String isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(String active) {
         this.active = active;
     }
 

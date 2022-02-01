@@ -2,7 +2,6 @@ package org.example.practice.doc.controller;
 
 import org.example.practice.doc.dto.DocDto;
 import org.example.practice.doc.service.DocService;
-import org.example.practice.office.dto.OfficeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

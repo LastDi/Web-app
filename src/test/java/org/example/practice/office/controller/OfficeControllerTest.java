@@ -61,7 +61,7 @@ class OfficeControllerTest {
     void getOffices() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/office/list")
-                        .content(asJsonString(new OfficeDtoForListIn(1L, true)))
+                        .content(asJsonString(new OfficeDtoForListIn(1L, "true")))
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -70,7 +70,7 @@ class OfficeControllerTest {
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/office/list")
-                        .content(asJsonString(new OfficeDtoForListIn(2L, true)))
+                        .content(asJsonString(new OfficeDtoForListIn(2L, "true")))
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

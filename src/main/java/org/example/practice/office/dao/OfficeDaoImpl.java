@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Repository
 public class OfficeDaoImpl implements OfficeDao{
@@ -79,7 +80,6 @@ public class OfficeDaoImpl implements OfficeDao{
         if (map == null)
             map = new HashMap<>();
         map.put("organization", dto::getOrgId);
-        map.put("active", dto::isActive);
         map.put("name", dto::getName);
         map.put("phone", dto::getPhone);
     }
@@ -91,7 +91,11 @@ public class OfficeDaoImpl implements OfficeDao{
         List<Predicate> predicatesList = map.entrySet().stream()
                 .filter(pair -> pair.getValue().get() != null)
                 .map(pair -> builder.equal(office.get(pair.getKey()), pair.getValue().get()))
-                .toList();
+                .collect(Collectors.toList());
+        if (dto.isActive() != null) {
+            Predicate isActive = builder.equal(office.get("active"), Boolean.parseBoolean(dto.isActive()));
+            predicatesList.add(isActive);
+        }
         Predicate[] predicates = new Predicate[predicatesList.size()];
         predicatesList.toArray(predicates);
         criteria.where(predicates);

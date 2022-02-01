@@ -1,5 +1,6 @@
 package org.example.practice.handler;
 
+import org.example.practice.handler.exception.DateParseException;
 import org.example.practice.handler.exception.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,11 @@ public class ProjectExceptionHandler {
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<?> entityNotFoundException(EntityNotFoundException entityNotFoundException) {
         return new ResponseEntity<>(entityNotFoundException.getExcMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = DateParseException.class)
+    public ResponseEntity<?> entityNotFoundException(DateParseException dateParseException) {
+        return new ResponseEntity<>(dateParseException.getExcMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = NullPointerException.class)

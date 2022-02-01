@@ -14,7 +14,7 @@ public class OfficeDtoForUpd {
     @NotBlank
     private String address;
     private String phone;
-    private boolean active;
+    private String active;
 
     public OfficeDtoForUpd() {
     }
@@ -57,11 +57,11 @@ public class OfficeDtoForUpd {
         this.phone = phone;
     }
 
-    public boolean isActive() {
+    public String isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(String active) {
         this.active = active;
     }
 }

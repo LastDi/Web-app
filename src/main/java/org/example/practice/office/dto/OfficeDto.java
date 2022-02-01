@@ -1,5 +1,8 @@
 package org.example.practice.office.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OfficeDto {
 
     private Long id;

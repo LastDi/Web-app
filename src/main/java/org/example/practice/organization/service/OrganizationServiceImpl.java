@@ -36,7 +36,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 dto.getKpp(),
                 dto.getAddress(),
                 dto.getPhone(),
-                dto.isActive()
+                Boolean.parseBoolean(dto.isActive())
         );
         dao.save(organization);
     }
@@ -63,7 +63,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.setInn(dto.getInn());
         organization.setKpp(dto.getKpp());
         organization.setAddress(dto.getAddress());
-        organization.setActive(dto.isActive());
+        if (dto.isActive() != null)
+            organization.setActive(Boolean.parseBoolean(dto.isActive()));
         if (dto.getPhone() != null)
             organization.setPhone(dto.getPhone());
         dao.update(organization);

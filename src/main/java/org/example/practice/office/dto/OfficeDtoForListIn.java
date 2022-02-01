@@ -11,7 +11,7 @@ public class OfficeDtoForListIn {
     private Long orgId;
     private String name;
     private String phone;
-    private boolean active;
+    private String active;
 
     public OfficeDtoForListIn() {
     }
@@ -20,14 +20,15 @@ public class OfficeDtoForListIn {
         this.orgId = orgId;
     }
 
-    public OfficeDtoForListIn(Long orgId, boolean active) {
+    public OfficeDtoForListIn(Long orgId, String active) {
         this.orgId = orgId;
         this.active = active;
     }
 
-    public OfficeDtoForListIn(Long orgId, String name) {
+    public OfficeDtoForListIn(Long orgId, String name, String phone) {
         this.orgId = orgId;
         this.name = name;
+        this.phone = phone;
     }
 
     public Long getOrgId() {
@@ -54,11 +55,11 @@ public class OfficeDtoForListIn {
         this.phone = phone;
     }
 
-    public boolean isActive() {
+    public String isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(String active) {
         this.active = active;
     }
 

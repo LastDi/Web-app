@@ -55,7 +55,7 @@ class OrganizationControllerTest {
     void getOrganizations() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/organization/list")
-                        .content(asJsonString(new OrganizationDtoForListIn("X5", true)))
+                        .content(asJsonString(new OrganizationDtoForListIn("X5", "true")))
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
@@ -65,7 +65,7 @@ class OrganizationControllerTest {
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/organization/list")
-                        .content(asJsonString(new OrganizationDtoForListIn("X5", true)))
+                        .content(asJsonString(new OrganizationDtoForListIn("X5", "true")))
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())

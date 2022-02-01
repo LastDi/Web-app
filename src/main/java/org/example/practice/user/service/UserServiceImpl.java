@@ -4,22 +4,20 @@ import org.example.practice.country.dao.CountryDao;
 import org.example.practice.country.entity.Country;
 import org.example.practice.doc.dao.DocDao;
 import org.example.practice.doc.entity.Doc;
+import org.example.practice.handler.exception.DateParseException;
 import org.example.practice.mapper.Mapper;
 import org.example.practice.office.dao.OfficeDao;
 import org.example.practice.office.entity.Office;
 import org.example.practice.typedoc.dao.TypeDocDao;
-import org.example.practice.typedoc.entity.TypeDoc;
 import org.example.practice.user.dao.UserDao;
 import org.example.practice.user.dto.*;
 import org.example.practice.user.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * {@inheritDoc}
@@ -32,8 +30,9 @@ public class UserServiceImpl implements UserService {
     private final CountryDao countryDao;
     private final TypeDocDao typeDocDao;
     private final Mapper mapper;
-    private User user;
-    private Doc doc;
+    private User updUser;
+    private Doc updDoc;
+
 
     public UserServiceImpl(UserDao dao, Mapper mapper, OfficeDao officeDao, CountryDao countryDao, TypeDocDao typeDocDao, DocDao docDao) {
         this.dao = dao;
@@ -60,8 +59,9 @@ public class UserServiceImpl implements UserService {
                 dto.getMiddleName(),
                 dto.getPosition(),
                 dto.getPhone(),
-                office, country,
-                dto.isIdentified()
+                office,
+                country,
+                Boolean.parseBoolean(dto.isIdentified())
         );
         dao.save(user);
         if (dto.getDocName() != null && dto.getDocNumber() != null && dto.getDocDate() != null) {
@@ -73,7 +73,6 @@ public class UserServiceImpl implements UserService {
                     user
             );
             docDao.save(doc);
-            user.setIdentified(true);
         }
     }
 
@@ -111,12 +110,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(UserDtoForUpd dto) {
-        user = dao.loadById(dto.getId());
-        doc = user.getDoc();
+        updUser = dao.loadById(dto.getId());
+        updDoc = updUser.getDoc();
         if (validateDoc(dto))
             updDoc(dto);
         updUser(dto);
-        dao.update(user);
+        dao.update(updUser);
     }
 
     /**
@@ -124,21 +123,22 @@ public class UserServiceImpl implements UserService {
      * @param dto
      */
     private void updUser(UserDtoForUpd dto) {
-        user.setFirstName(dto.getFirstName());
-        user.setPosition(dto.getPosition());
+        updUser.setFirstName(dto.getFirstName());
+        updUser.setPosition(dto.getPosition());
+        if (dto.isIdentified() != null)
+            updUser.setIdentified(Boolean.parseBoolean(dto.isIdentified()));
         if (dto.getLastName() != null)
-            user.setLastName(dto.getLastName());
+            updUser.setLastName(dto.getLastName());
         if (dto.getMiddleName() != null)
-            user.setMiddleName(dto.getMiddleName());
+            updUser.setMiddleName(dto.getMiddleName());
         if (dto.getPhone() != null)
-            user.setPhone(dto.getPhone());
+            updUser.setPhone(dto.getPhone());
         if (dto.getOfficeId() != null)
-            user.setOffice(officeDao.loadById(dto.getOfficeId()));
+            updUser.setOffice(officeDao.loadById(dto.getOfficeId()));
         if (dto.getCitizenshipCode() != null)
-            user.setCountry(countryDao.loadByCode(dto.getCitizenshipCode()));
-        if (doc != null) {
-            user.setDoc(doc);
-            user.setIdentified(true);
+            updUser.setCountry(countryDao.loadByCode(dto.getCitizenshipCode()));
+        if (updDoc != null) {
+            updUser.setDoc(updDoc);
         }
     }
 
@@ -148,12 +148,13 @@ public class UserServiceImpl implements UserService {
      */
     private void updDoc(UserDtoForUpd dto) {
         if (dto.getDocName() != null)
-            doc.setTypeDoc(typeDocDao.loadByName(dto.getDocName()));
+            updDoc.setTypeDoc(typeDocDao.loadByName(dto.getDocName()));
         if (dto.getDocNumber() != null)
-            doc.setNumber(dto.getDocNumber());
-        if (dto.getDocDate() != null)
-            doc.setDate(dto.getDocDate());
-        docDao.update(doc);
+            updDoc.setNumber(dto.getDocNumber());
+        if (dto.getDocDate() != null) {
+            updDoc.setDate(dto.getDocDate());
+        }
+        docDao.update(updDoc);
     }
 
     /**
@@ -162,13 +163,11 @@ public class UserServiceImpl implements UserService {
      * @return boolean
      */
     private boolean validateDoc(UserDtoForUpd dto) {
-        if (doc == null) {
-            if (dto.getDocName() != null && dto.getDocNumber() != null && dto.getDocDate() != null) {
-                doc = new Doc(dto.getId(), user);
-            }
-            else {
+        if (updDoc == null) {
+            if ((dto.getDocName() == null) || (dto.getDocNumber() == null) || (dto.getDocDate() == null)) {
                 return false;
             }
+            updDoc = new Doc(dto.getId(), updUser);
         }
         return true;
     }

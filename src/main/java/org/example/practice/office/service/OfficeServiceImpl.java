@@ -35,7 +35,13 @@ public class OfficeServiceImpl implements OfficeService{
     @Transactional
     public void add(OfficeDtoForSave dto) {
         Organization organization = orgDao.loadById(dto.getOrgId());
-        Office office = new Office(dto.getName(), dto.getAddress(), dto.getPhone(), dto.isActive(), organization);
+        Office office = new Office(
+                dto.getName(),
+                dto.getAddress(),
+                dto.getPhone(),
+                Boolean.parseBoolean(dto.isActive()),
+                organization
+        );
         dao.save(office);
     }
 
@@ -55,7 +61,8 @@ public class OfficeServiceImpl implements OfficeService{
         Office office = dao.loadById(dto.getId());
         office.setName(dto.getName());
         office.setAddress(dto.getAddress());
-        office.setActive(dto.isActive());
+        if (dto.isActive() != null)
+            office.setActive(Boolean.parseBoolean(dto.isActive()));
         if (office.getPhone() != null)
             office.setPhone(dto.getPhone());
         dao.update(office);

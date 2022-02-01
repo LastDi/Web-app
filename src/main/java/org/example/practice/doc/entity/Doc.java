@@ -77,10 +77,6 @@ public class Doc {
         return userId;
     }
 
-    public Integer getVersion() {
-        return version;
-    }
-
     public String getNumber() {
         return number;
     }
@@ -120,7 +116,6 @@ public class Doc {
                 ", number='" + number + '\'' +
                 ", date='" + date + '\'' +
                 ", typeDoc=" + typeDoc.getName() +
-//                ", user=" + user.getFirstName() +
                 '}';
     }
 }

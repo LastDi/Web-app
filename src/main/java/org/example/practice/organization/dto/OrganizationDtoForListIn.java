@@ -10,12 +10,12 @@ public class OrganizationDtoForListIn {
     @NotBlank
     private String name;
     private String inn;
-    private boolean active;
+    private String active;
 
     public OrganizationDtoForListIn() {
     }
 
-    public OrganizationDtoForListIn(String name, boolean active) {
+    public OrganizationDtoForListIn(String name, String active) {
         this.name = name;
         this.active = active;
     }
@@ -36,11 +36,11 @@ public class OrganizationDtoForListIn {
         this.name = name;
     }
 
-    public boolean isActive() {
+    public String isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(String active) {
         this.active = active;
     }
 
